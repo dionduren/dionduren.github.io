@@ -1,4 +1,372 @@
-<!doctype html><meta charset="utf-8"><title>rclone-backup</title>
-<h1>rclone-backup</h1>
-<p>Personal backup tool for one private server. It uploads encrypted backups to the owner's own Google Drive using rclone. Not offered to the public.</p>
-<p><a href="privacy.html">Privacy policy</a></p>
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dion — dionduren</title>
+<meta name="description" content="Dion (dionduren): builder sistem internal untuk user access management, access review SAP, dan tata kelola IT. Verifikasi dulu, baru percaya.">
+<meta property="og:title" content="Dion — dionduren">
+<meta property="og:description" content="Sistem internal yang audit-friendly: user access management, access review, IT asset management.">
+<meta property="og:image" content="https://dionduren.github.io/assets/avatar.webp">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/face.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0d0b;
+    --bg-2: #171310;
+    --panel: #1d1814;
+    --line: #3a2f26;
+    --text: #f3ebe1;
+    --muted: #b7a898;
+    --amber: #f2a93b;
+    --red: #e5483b;
+    --green: #7fd88f;
+    --radius: 14px;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(242,169,59,.12), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(229,72,59,.08), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font: 17px/1.65 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--amber); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .mono { font-family: var(--mono); }
+
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); background: rgba(15,13,11,.78); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-family: var(--mono); font-weight: 600; color: var(--text); }
+  .brand span { color: var(--green); }
+  nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  nav ul a { color: var(--muted); }
+  nav ul a:hover { color: var(--text); text-decoration: none; }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding: 72px 0 56px; }
+  .kicker { font-family: var(--mono); color: var(--green); font-size: 14px; margin: 0 0 14px; }
+  h1 { font-size: clamp(36px, 5.4vw, 60px); line-height: 1.05; margin: 0 0 18px; letter-spacing: -.02em; }
+  h1 em { font-style: normal; color: var(--amber); }
+  .lead { color: var(--muted); font-size: 19px; max-width: 34em; margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 10px; font-weight: 500; border: 1px solid var(--line); color: var(--text); background: var(--panel); }
+  .btn:hover { text-decoration: none; border-color: var(--amber); }
+  .btn.primary { background: var(--amber); color: #1a1209; border-color: var(--amber); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .portrait { position: relative; justify-self: center; max-width: 380px; width: 100%; }
+  .portrait img { display: block; width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--line); box-shadow: 0 30px 80px -20px rgba(0,0,0,.8), 0 0 0 6px rgba(242,169,59,.06); }
+  .badge { position: absolute; left: -18px; bottom: 26px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-family: var(--mono); font-size: 13px; color: var(--green); box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+  .badge::before { content: "●"; margin-right: 6px; }
+
+  /* terminal */
+  .term { margin-top: 34px; background: #0b0a09; border: 1px solid var(--line); border-radius: var(--radius); font-family: var(--mono); font-size: 14px; overflow: hidden; }
+  .term-bar { display: flex; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #3a2f26; display: block; }
+  .term-bar i:nth-child(1) { background: var(--red); } .term-bar i:nth-child(2) { background: var(--amber); } .term-bar i:nth-child(3) { background: var(--green); }
+  .term pre { margin: 0; padding: 16px 18px; white-space: pre-wrap; color: var(--muted); }
+  .term .p { color: var(--green); } .term .ok { color: var(--green); } .term .w { color: var(--amber); } .term .c { color: var(--text); }
+
+  /* sections */
+  section { scroll-margin-top: 58px; padding: 64px 0; border-top: 1px solid var(--line); }
+  .eyebrow { font-family: var(--mono); color: var(--amber); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; }
+  h2 { font-size: clamp(28px, 3.6vw, 38px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); max-width: 44em; margin: 0 0 36px; }
+  .grid { display: grid; gap: 18px; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+  .card h3 { margin: 0 0 8px; font-size: 19px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+  .card .ix { font-family: var(--mono); color: var(--amber); font-size: 13px; display: block; margin-bottom: 10px; }
+
+  /* projects */
+  .proj { display: flex; flex-direction: column; gap: 12px; }
+  .proj.feature { grid-column: 1 / -1; border-color: rgba(242,169,59,.45); background: linear-gradient(180deg, rgba(242,169,59,.06), transparent 60%), var(--panel); }
+  .proj-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .proj h3 { margin: 0; font-size: 21px; }
+  .tag { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .tag.live { color: var(--green); border-color: rgba(127,216,143,.4); }
+  .tag.priv { color: var(--amber); border-color: rgba(242,169,59,.4); }
+  .proj ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15.5px; }
+  .proj ul li { margin: 3px 0; }
+  .feature-cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 26px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat { background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  .stat b { display: block; font-family: var(--mono); font-size: 24px; color: var(--amber); }
+  .stat span { display: block; line-height: 1.3; font-size: 13px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .chip { font-family: var(--mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text); }
+  .links { display: flex; gap: 16px; font-size: 15px; }
+  .note { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* process */
+  .steps { counter-reset: s; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .step { position: relative; padding: 18px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
+  .step::before { counter-increment: s; content: "0" counter(s); font-family: var(--mono); color: var(--green); font-size: 13px; display: block; margin-bottom: 6px; }
+  .step h4 { margin: 0 0 6px; font-size: 16px; }
+  .step p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* timeline */
+  .tl { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+  .tl li { position: relative; padding: 0 0 22px 24px; }
+  .tl li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--amber); }
+  .tl b { font-family: var(--mono); color: var(--amber); font-weight: 600; margin-right: 8px; }
+  .tl span { color: var(--muted); }
+
+  /* contact */
+  .contact { text-align: center; padding: 80px 0; }
+  .contact .sub { margin-left: auto; margin-right: auto; }
+  .contact .cta { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  .cursor { display: inline-block; width: .55em; background: var(--green); animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .cursor { animation: none; }
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 44px; gap: 36px; }
+    .portrait { max-width: 320px; order: -1; }
+    .g3, .steps { grid-template-columns: repeat(2, 1fr); }
+    .feature-cols { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    nav ul { gap: 14px; font-size: 14px; }
+    nav ul li.hide-sm { display: none; }
+    .g3, .g2, .steps { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stat b { font-size: 20px; }
+    .badge { left: 8px; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">~/<span>dionduren</span></a>
+    <ul>
+      <li><a href="#cara-kerja">Cara kerja</a></li>
+      <li><a href="#proyek">Proyek</a></li>
+      <li class="hide-sm"><a href="#perjalanan">Perjalanan</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="top" class="wrap hero">
+  <div>
+    <p class="kicker">$ whoami</p>
+    <h1>Halo, saya Dion.<br>Saya bangun sistem yang <em>bisa diaudit</em>.</h1>
+    <p class="lead">Developer sistem internal untuk <strong>user access management</strong>, <strong>access review SAP</strong>, dan <strong>tata kelola IT</strong> di lingkungan yang diatur ketat. Prinsip saya sederhana: verifikasi dulu, baru percaya&nbsp;— dan setiap perubahan harus meninggalkan jejak.</p>
+    <div class="cta">
+      <a class="btn primary" href="#proyek">Lihat proyek →</a>
+      <a class="btn" href="https://github.com/dionduren" rel="noopener">GitHub</a>
+    </div>
+
+    <div class="term" aria-label="Ringkasan prinsip kerja dalam gaya terminal">
+      <div class="term-bar"><i></i><i></i><i></i></div>
+<pre><span class="p">$</span> <span class="c">verify --assumptions --numbers --facts</span>
+<span class="ok">✔</span> dicek ulang, langkah demi langkah
+<span class="p">$</span> <span class="c">grant --least-privilege</span>
+<span class="ok">✔</span> akses minimal, sesuai job role
+<span class="p">$</span> <span class="c">git log --audit-trail</span>
+<span class="ok">✔</span> siapa, kapan, apa — tercatat
+<span class="p">$</span> <span class="c">confidence --show</span>
+<span class="w">!</span> tahu · simpulan · belum pasti — dipisah jelas
+<span class="p">$</span> <span class="cursor">&nbsp;</span></pre>
+    </div>
+  </div>
+
+  <div class="portrait">
+    <img src="assets/avatar.webp" width="720" height="1080" alt="Ilustrasi Dion bergaya komik: memakai headset dan hoodie dengan logo gembok, mengetik di keyboard dikelilingi layar keamanan siber, buku 'Pen Test Report', dan mug 'Security'.">
+    <div class="badge">security-minded</div>
+  </div>
+</header>
+
+<section id="cara-kerja">
+  <div class="wrap">
+    <p class="eyebrow">Cara saya bekerja</p>
+    <h2>Skeptis secara default, rapi secara dokumentasi.</h2>
+    <p class="sub">Saya bisa salah, Anda juga bisa salah — jadi kita sama-sama mengoptimalkan akurasi. Enam prinsip yang saya pegang di setiap proyek:</p>
+    <div class="grid g3">
+      <div class="card rv"><span class="ix">01 / verify</span><h3>Cek ulang, jangan asumsi</h3><p>Angka, fakta, dan asumsi dihitung ulang dan ditunjukkan langkahnya. Inkonsistensi dan data yang hilang ditandai <em>sebelum</em> menyimpulkan.</p></div>
+      <div class="card rv"><span class="ix">02 / confidence</span><h3>Jujur soal tingkat keyakinan</h3><p>Pisahkan yang saya <em>tahu</em>, yang saya <em>simpulkan</em>, dan yang <em>belum pasti</em> — lengkap dengan cara memverifikasinya.</p></div>
+      <div class="card rv"><span class="ix">03 / audit</span><h3>Audit-friendly by design</h3><p>Audit trail, checkpoint proses, penomoran dokumen, dan error log bukan tambahan belakangan — itu bagian dari desain awal.</p></div>
+      <div class="card rv"><span class="ix">04 / least-privilege</span><h3>Akses seminimal mungkin</h3><p>Role-based access, auth hardening, scope OAuth paling sempit. Kalau tidak perlu akses, jangan diberi akses.</p></div>
+      <div class="card rv"><span class="ix">05 / compliance</span><h3>Kalau ragu, pilih jalur patuh</h3><p>Legalitas dan perlindungan perusahaan di atas kecepatan. Setiap keputusan berisiko didokumentasikan beserta trade-off-nya.</p></div>
+      <div class="card rv"><span class="ix">06 / teach</span><h3>Bikin proses yang bisa diulang</h3><p>Output terstruktur — tabel, checklist, template — yang bisa langsung dipakai, plus penjelasan kenapa, supaya tim ikut paham.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="proyek">
+  <div class="wrap">
+    <p class="eyebrow">Proyek</p>
+    <h2>Yang sedang dan pernah saya bangun.</h2>
+    <p class="sub">Status ditulis apa adanya: mana yang aktif dipakai, mana yang privat, dan mana yang memang catatan belajar.</p>
+
+    <div class="grid g2">
+      <article class="card proj feature rv">
+        <div class="proj-head">
+          <h3>User Access Management (UAM / UAR)</h3>
+          <span class="tag priv">private · aktif sejak Okt 2024</span>
+        </div>
+        <div class="feature-cols">
+          <div>
+            <p>Platform tata kelola akses SAP untuk menjawab pertanyaan auditor: <em>siapa punya akses apa, kenapa, dan sejak kapan?</em></p>
+            <ul>
+              <li>Pemetaan berlapis: job role → composite role → single role → tcode</li>
+              <li>User Access Matrix &amp; User Access Review per periode, dengan penomoran dokumen</li>
+              <li>Import/export Excel massal dan laporan Word untuk berita acara</li>
+              <li>Deteksi anomali data, nama duplikat, dan selisih composite role antar sumber</li>
+              <li>Audit trail, process checkpoint, manajemen lisensi user, dan auth hardening</li>
+            </ul>
+          </div>
+          <div class="proj">
+            <div class="stats">
+              <div class="stat"><b>50</b><span>migrasi skema</span></div>
+              <div class="stat"><b>35</b><span>model data</span></div>
+              <div class="stat"><b>7</b><span>jenis laporan</span></div>
+            </div>
+            <div class="chips">
+              <span class="chip">Laravel 10</span><span class="chip">PHP 8.1</span><span class="chip">spatie/permission</span><span class="chip">DataTables</span><span class="chip">Laravel Excel</span><span class="chip">PhpWord</span><span class="chip">Docker</span>
+            </div>
+            <p class="note">Repo privat; detail internal sengaja tidak ditampilkan.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>rclone-backup</h3>
+          <span class="tag live">personal · aktif</span>
+        </div>
+        <p>Backup terenkripsi dari server pribadi ke Google Drive milik sendiri. Hanya pakai scope <span class="mono">drive.file</span> — aplikasi cuma bisa melihat file yang ia buat sendiri.</p>
+        <div class="chips"><span class="chip">rclone</span><span class="chip">encryption</span><span class="chip">Google OAuth</span><span class="chip">bash</span></div>
+        <div class="links"><a href="rclone-backup.html">Tentang tool</a><a href="privacy.html">Privacy policy</a></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>IT Asset Management</h3>
+          <span class="tag">public · 2025</span>
+        </div>
+        <p>Pencatatan aset IT (misalnya laptop) dan siapa pemegangnya, dengan filter berbasis role, breadcrumb, dan pengaturan tema/layout.</p>
+        <div class="chips"><span class="chip">Laravel</span><span class="chip">Tailwind</span><span class="chip">Vite</span></div>
+        <div class="links"><a href="https://github.com/dionduren/ITAssetManagement" rel="noopener">Repo →</a></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>Catatan belajar</h3>
+          <span class="tag">2022 – 2023</span>
+        </div>
+        <p>Fondasi yang dibangun pelan-pelan, di-commit apa adanya.</p>
+        <ul>
+          <li><a href="https://github.com/dionduren/belajar-postgres" rel="noopener">belajar-postgres</a> — Laravel + PostgreSQL, flow admin pertama</li>
+          <li><a href="https://github.com/dionduren/belajar_flutter" rel="noopener">belajar_flutter</a> — eksplorasi aplikasi mobile</li>
+          <li><a href="https://github.com/dionduren/Laravel_starter" rel="noopener">Laravel_starter</a> &amp; <a href="https://github.com/dionduren/belajar_PHP01" rel="noopener">belajar_PHP01</a> — PHP &amp; Laravel dasar</li>
+        </ul>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>AI-assisted engineering</h3>
+          <span class="tag">eksperimen · 2026</span>
+        </div>
+        <p>Memakai Claude Code sebagai rekan pair-programming dan "ruang berpikir" — tetap dengan aturan yang sama: hasil AI diverifikasi, di-review, dan dicatat sebelum masuk produksi.</p>
+        <div class="chips"><span class="chip">Claude Code</span><span class="chip">human review</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="proses">
+  <div class="wrap">
+    <p class="eyebrow">Alur kerja</p>
+    <h2>Dari permintaan sampai bisa diaudit.</h2>
+    <p class="sub">Pola yang saya ulang di hampir setiap pekerjaan — dari bikin fitur sampai menyiapkan bahan audit.</p>
+    <div class="steps">
+      <div class="step rv"><h4>Pahami</h4><p>Baca data &amp; dokumen dengan teliti. Tanya hanya kalau benar-benar perlu; selain itu, tulis asumsinya.</p></div>
+      <div class="step rv"><h4>Verifikasi</h4><p>Hitung ulang, bandingkan sumber, tandai yang ambigu atau hilang.</p></div>
+      <div class="step rv"><h4>Bangun</h4><p>Perubahan minimal yang menyelesaikan masalah, dengan akses dan scope seperlunya.</p></div>
+      <div class="step rv"><h4>Catat</h4><p>Audit trail, before/after, dan alasan di balik keputusan.</p></div>
+      <div class="step rv"><h4>Wariskan</h4><p>Checklist, template, dan next actions supaya prosesnya bisa diulang orang lain.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="perjalanan">
+  <div class="wrap grid g2" style="align-items:start">
+    <div>
+      <p class="eyebrow">Perjalanan</p>
+      <h2>Dari belajar PHP ke tata kelola akses.</h2>
+      <p class="sub">Ringkasan dari riwayat commit — bukan CV, tapi jejak yang bisa dicek.</p>
+      <div class="chips" style="margin-top:0">
+        <span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">PostgreSQL</span><span class="chip">SQL views</span><span class="chip">Docker</span><span class="chip">Excel / Word automation</span><span class="chip">RBAC</span><span class="chip">SAP access model</span><span class="chip">Flutter</span><span class="chip">rclone</span><span class="chip">Git</span>
+      </div>
+    </div>
+    <ol class="tl">
+      <li class="rv"><b>2022</b><span>Mulai serius belajar PHP dan Laravel — form registrasi, routing, dasar-dasarnya.</span></li>
+      <li class="rv"><b>2023</b><span>Masuk PostgreSQL dan control panel admin; mencoba Flutter untuk mobile.</span></li>
+      <li class="rv"><b>Okt 2024</b><span>Mulai membangun platform User Access Management: struktur organisasi, job role, composite &amp; single role, tcode.</span></li>
+      <li class="rv"><b>2025</b><span>IT Asset Management; UAR per periode, integrasi middle DB, deteksi anomali, process checkpoint.</span></li>
+      <li class="rv"><b>2026</b><span>Auth hardening, backup terenkripsi dengan rclone, dan workflow AI-assisted yang tetap di-review manusia.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="kontak" class="contact">
+  <div class="wrap">
+    <p class="eyebrow">Kontak</p>
+    <h2>Ngobrol soal access governance atau sistem internal?</h2>
+    <p class="sub">User access review, kesiapan audit, otomasi laporan, atau aplikasi internal yang harus rapi dan bisa dipertanggungjawabkan — saya senang berdiskusi.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/dionduren" rel="noopener">github.com/dionduren</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 dionduren · Ilustrasi dibuat dengan AI.</span>
+    <span><a href="rclone-backup.html">rclone-backup</a> · <a href="privacy.html">Privacy policy</a></span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+</body>
+</html>
