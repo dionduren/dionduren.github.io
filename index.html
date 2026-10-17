@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dion — dionduren</title>
-<meta name="description" content="Dion (dionduren): builder sistem internal untuk user access management, access review SAP, dan tata kelola IT. Verifikasi dulu, baru percaya.">
+<meta name="description" content="Dion (dionduren): portofolio self-hosted AI agent, server hardening, dan tata kelola IT. Verifikasi dulu, baru percaya.">
 <meta property="og:title" content="Dion — dionduren">
-<meta property="og:description" content="Sistem internal yang audit-friendly: user access management, access review, IT asset management.">
+<meta property="og:description" content="Portofolio: self-hosted AI agent, akses remote yang aman, backup terenkripsi, dan IT asset management.">
 <meta property="og:image" content="https://dionduren.github.io/assets/avatar.webp">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/face.png">
@@ -98,7 +98,6 @@
   .proj h3 { margin: 0; font-size: 21px; }
   .tag { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
   .tag.live { color: var(--green); border-color: rgba(127,216,143,.4); }
-  .tag.priv { color: var(--amber); border-color: rgba(242,169,59,.4); }
   .proj ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15.5px; }
   .proj ul li { margin: 3px 0; }
   .feature-cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 26px; }
@@ -170,7 +169,7 @@
     <a class="brand" href="#top">~/<span>dionduren</span></a>
     <ul>
       <li><a href="#cara-kerja">Cara kerja</a></li>
-      <li><a href="#proyek">Proyek</a></li>
+      <li><a href="#proyek">Portofolio</a></li>
       <li class="hide-sm"><a href="#perjalanan">Perjalanan</a></li>
       <li><a href="#kontak">Kontak</a></li>
     </ul>
@@ -181,9 +180,9 @@
   <div>
     <p class="kicker">$ whoami</p>
     <h1>Halo, saya Dion.<br>Saya bangun sistem yang <em>bisa diaudit</em>.</h1>
-    <p class="lead">Developer sistem internal untuk <strong>user access management</strong>, <strong>access review SAP</strong>, dan <strong>tata kelola IT</strong> di lingkungan yang diatur ketat. Prinsip saya sederhana: verifikasi dulu, baru percaya&nbsp;— dan setiap perubahan harus meninggalkan jejak.</p>
+    <p class="lead">Saya bekerja di <strong>tata kelola IT</strong> dan <strong>keamanan</strong>, dan membangun sendiri <strong>server AI agent yang di-hardening</strong>, akses remote yang aman, serta backup terenkripsi. Prinsip saya sederhana: verifikasi dulu, baru percaya&nbsp;— dan setiap perubahan harus meninggalkan jejak.</p>
     <div class="cta">
-      <a class="btn primary" href="#proyek">Lihat proyek →</a>
+      <a class="btn primary" href="#proyek">Lihat portofolio →</a>
       <a class="btn" href="https://github.com/dionduren" rel="noopener">GitHub</a>
     </div>
 
@@ -215,7 +214,7 @@
     <div class="grid g3">
       <div class="card rv"><span class="ix">01 / verify</span><h3>Cek ulang, jangan asumsi</h3><p>Angka, fakta, dan asumsi dihitung ulang dan ditunjukkan langkahnya. Inkonsistensi dan data yang hilang ditandai <em>sebelum</em> menyimpulkan.</p></div>
       <div class="card rv"><span class="ix">02 / confidence</span><h3>Jujur soal tingkat keyakinan</h3><p>Pisahkan yang saya <em>tahu</em>, yang saya <em>simpulkan</em>, dan yang <em>belum pasti</em> — lengkap dengan cara memverifikasinya.</p></div>
-      <div class="card rv"><span class="ix">03 / audit</span><h3>Audit-friendly by design</h3><p>Audit trail, checkpoint proses, penomoran dokumen, dan error log bukan tambahan belakangan — itu bagian dari desain awal.</p></div>
+      <div class="card rv"><span class="ix">03 / audit</span><h3>Audit-friendly by design</h3><p>Setiap perubahan di-commit, setiap rencana disertai dampak dan langkah rollback. Audit trail bukan tambahan belakangan, tapi bagian dari desain awal.</p></div>
       <div class="card rv"><span class="ix">04 / least-privilege</span><h3>Akses seminimal mungkin</h3><p>Role-based access, auth hardening, scope OAuth paling sempit. Kalau tidak perlu akses, jangan diberi akses.</p></div>
       <div class="card rv"><span class="ix">05 / compliance</span><h3>Kalau ragu, pilih jalur patuh</h3><p>Legalitas dan perlindungan perusahaan di atas kecepatan. Setiap keputusan berisiko didokumentasikan beserta trade-off-nya.</p></div>
       <div class="card rv"><span class="ix">06 / teach</span><h3>Bikin proses yang bisa diulang</h3><p>Output terstruktur — tabel, checklist, template — yang bisa langsung dipakai, plus penjelasan kenapa, supaya tim ikut paham.</p></div>
@@ -225,49 +224,91 @@
 
 <section id="proyek">
   <div class="wrap">
-    <p class="eyebrow">Proyek</p>
+    <p class="eyebrow">Portofolio</p>
     <h2>Yang sedang dan pernah saya bangun.</h2>
-    <p class="sub">Status ditulis apa adanya: mana yang aktif dipakai, mana yang privat, dan mana yang memang catatan belajar.</p>
+    <p class="sub">Sebagian besar dikerjakan bersama Claude Code sebagai pair-programmer: rencana, dampak, dan rollback dibahas dulu, setiap perubahan di-commit. Statusnya ditulis apa adanya.</p>
 
     <div class="grid g2">
       <article class="card proj feature rv">
         <div class="proj-head">
-          <h3>User Access Management (UAM / UAR)</h3>
-          <span class="tag priv">private · aktif sejak Okt 2024</span>
+          <h3>Self-hosted multi-agent AI server</h3>
+          <span class="tag live">personal · aktif · 2026</span>
         </div>
         <div class="feature-cols">
           <div>
-            <p>Platform tata kelola akses SAP untuk menjawab pertanyaan auditor: <em>siapa punya akses apa, kenapa, dan sejak kapan?</em></p>
+            <p>Server pribadi yang menjalankan beberapa AI agent berbasis OpenClaw. Tiap agent punya peran sendiri: asisten umum, pencatat keuangan pribadi ke Notion, asisten riset IT governance, dan admin server.</p>
             <ul>
-              <li>Pemetaan berlapis: job role → composite role → single role → tcode</li>
-              <li>User Access Matrix &amp; User Access Review per periode, dengan penomoran dokumen</li>
-              <li>Import/export Excel massal dan laporan Word untuk berita acara</li>
-              <li>Deteksi anomali data, nama duplikat, dan selisih composite role antar sumber</li>
-              <li>Audit trail, process checkpoint, manajemen lisensi user, dan auth hardening</li>
+              <li>Membersihkan secret yang tersebar di 37 file dan memindahkannya ke satu env file dengan permission <span class="mono">600</span>, lalu merotasi API key</li>
+              <li>Setiap workspace agent di-<span class="mono">git init</span>, jadi semua perubahan konfigurasi tercatat dan bisa di-rollback</li>
+              <li>Least privilege per agent: tool deny-list, kebijakan exec, dan model fallback</li>
+              <li>Kajian upgrade versi: memetakan plugin pihak ketiga yang berisiko rusak sebelum upgrade dilakukan</li>
             </ul>
           </div>
           <div class="proj">
             <div class="stats">
-              <div class="stat"><b>50</b><span>migrasi skema</span></div>
-              <div class="stat"><b>35</b><span>model data</span></div>
-              <div class="stat"><b>7</b><span>jenis laporan</span></div>
+              <div class="stat"><b>4</b><span>agent dengan peran terpisah</span></div>
+              <div class="stat"><b>37</b><span>file dibersihkan dari secret</span></div>
+              <div class="stat"><b>4</b><span>workspace di bawah git</span></div>
             </div>
             <div class="chips">
-              <span class="chip">Laravel 10</span><span class="chip">PHP 8.1</span><span class="chip">spatie/permission</span><span class="chip">DataTables</span><span class="chip">Laravel Excel</span><span class="chip">PhpWord</span><span class="chip">Docker</span>
+              <span class="chip">OpenClaw</span><span class="chip">Linux</span><span class="chip">systemd</span><span class="chip">Notion API</span><span class="chip">LLM routing</span><span class="chip">Git</span>
             </div>
-            <p class="note">Repo privat; detail internal sengaja tidak ditampilkan.</p>
           </div>
         </div>
       </article>
 
       <article class="card proj rv">
         <div class="proj-head">
-          <h3>rclone-backup</h3>
+          <h3>Insiden: sub-agent yang membuat data sampah</h3>
+          <span class="tag">case study · Okt 2026</span>
+        </div>
+        <p>Sebuah agent mendelegasikan perhitungan ke sub-agent yang ternyata tidak punya akses baca. Sub-agent itu mencoba-coba, lalu membuat 10 entri sampah di database Notion. Saya menyusun timeline per menit dari log, menelusuri akar masalahnya, dan memastikan semua entri sampah sudah diarsipkan.</p>
+        <ul>
+          <li>Remediasi: blokir sub-agent dan <span class="mono">code_execution</span> untuk agent tersebut</li>
+          <li>Dokumentasikan pola query yang benar, sehingga waktu jawab turun dari ±7 menit menjadi target ±1 menit</li>
+        </ul>
+        <div class="chips"><span class="chip">incident response</span><span class="chip">log analysis</span><span class="chip">least privilege</span></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>Akses remote aman untuk MCP server</h3>
+          <span class="tag">desain · 2026</span>
+        </div>
+        <p>Rancangan cara membuka MCP tools ke luar jaringan tanpa membuka server: Tailscale Funnel → nginx token gate → container MCP. Hardening dilakukan bertahap: SSH key-only, ACL tag, baru setelah itu funnel.</p>
+        <ul>
+          <li>Analisis Cloudflare Tunnel vs Tailscale: WAF L7, idle timeout 100 detik, risiko double-hop</li>
+          <li>Rekomendasi: satu jalur per layanan, ditambah keepalive untuk tool yang berjalan lama</li>
+        </ul>
+        <div class="chips"><span class="chip">Tailscale</span><span class="chip">nginx</span><span class="chip">Docker</span><span class="chip">MCP</span><span class="chip">threat modeling</span></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>Backup rutin terenkripsi</h3>
           <span class="tag live">personal · aktif</span>
         </div>
-        <p>Backup terenkripsi dari server pribadi ke Google Drive milik sendiri. Hanya pakai scope <span class="mono">drive.file</span> — aplikasi cuma bisa melihat file yang ia buat sendiri.</p>
-        <div class="chips"><span class="chip">rclone</span><span class="chip">encryption</span><span class="chip">Google OAuth</span><span class="chip">bash</span></div>
+        <p>Backup server ke Google Drive milik sendiri dengan rclone crypt (dua password, disimpan di password manager) dan kebijakan retensi. Aplikasinya hanya memakai scope <span class="mono">drive.file</span>, jadi cuma bisa melihat file yang ia buat sendiri.</p>
+        <div class="chips"><span class="chip">rclone crypt</span><span class="chip">Google OAuth</span><span class="chip">bash</span><span class="chip">cron</span></div>
         <div class="links"><a href="rclone-backup.html">Tentang tool</a><a href="privacy.html">Privacy policy</a></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>Toolchain validasi untuk Claude Code</h3>
+          <span class="tag">setup · 2026</span>
+        </div>
+        <p>Supaya kode buatan AI tidak diterima begitu saja: SAST dengan Semgrep, uji browser dengan Playwright, dan observability lewat Grafana MCP.</p>
+        <div class="chips"><span class="chip">Semgrep</span><span class="chip">Playwright</span><span class="chip">Grafana MCP</span><span class="chip">Claude Code</span></div>
+      </article>
+
+      <article class="card proj rv">
+        <div class="proj-head">
+          <h3>Migrasi Notion → NocoDB</h3>
+          <span class="tag">perencanaan</span>
+        </div>
+        <p>Rencana memindahkan data dari Notion ke NocoDB yang di-host sendiri, supaya data tetap di server sendiri. Tiga keputusan masih terbuka: database (PostgreSQL atau SQLite), port, dan metode export.</p>
+        <div class="chips"><span class="chip">NocoDB</span><span class="chip">PostgreSQL</span><span class="chip">data ownership</span></div>
       </article>
 
       <article class="card proj rv">
@@ -295,11 +336,12 @@
 
       <article class="card proj rv">
         <div class="proj-head">
-          <h3>AI-assisted engineering</h3>
-          <span class="tag">eksperimen · 2026</span>
+          <h3>Landing page ini</h3>
+          <span class="tag live">live</span>
         </div>
-        <p>Memakai Claude Code sebagai rekan pair-programming dan "ruang berpikir" — tetap dengan aturan yang sama: hasil AI diverifikasi, di-review, dan dicatat sebelum masuk produksi.</p>
-        <div class="chips"><span class="chip">Claude Code</span><span class="chip">human review</span></div>
+        <p>HTML/CSS statis tanpa build step, di-host di GitHub Pages. Ilustrasinya dibuat dengan AI.</p>
+        <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">GitHub Pages</span></div>
+        <div class="links"><a href="https://github.com/dionduren/dionduren.github.io" rel="noopener">Repo →</a></div>
       </article>
     </div>
   </div>
@@ -324,18 +366,18 @@
   <div class="wrap grid g2" style="align-items:start">
     <div>
       <p class="eyebrow">Perjalanan</p>
-      <h2>Dari belajar PHP ke tata kelola akses.</h2>
-      <p class="sub">Ringkasan dari riwayat commit — bukan CV, tapi jejak yang bisa dicek.</p>
+      <h2>Dari belajar PHP ke self-hosted AI yang aman.</h2>
+      <p class="sub">Ringkasan dari riwayat commit dan sesi kerja. Bukan CV, tapi jejak yang bisa dicek.</p>
       <div class="chips" style="margin-top:0">
-        <span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">PostgreSQL</span><span class="chip">SQL views</span><span class="chip">Docker</span><span class="chip">Excel / Word automation</span><span class="chip">RBAC</span><span class="chip">SAP access model</span><span class="chip">Flutter</span><span class="chip">rclone</span><span class="chip">Git</span>
+        <span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">PostgreSQL</span><span class="chip">Linux</span><span class="chip">Docker</span><span class="chip">nginx</span><span class="chip">Tailscale</span><span class="chip">MCP</span><span class="chip">rclone</span><span class="chip">Semgrep</span><span class="chip">RBAC</span><span class="chip">Flutter</span><span class="chip">Git</span>
       </div>
     </div>
     <ol class="tl">
       <li class="rv"><b>2022</b><span>Mulai serius belajar PHP dan Laravel — form registrasi, routing, dasar-dasarnya.</span></li>
       <li class="rv"><b>2023</b><span>Masuk PostgreSQL dan control panel admin; mencoba Flutter untuk mobile.</span></li>
-      <li class="rv"><b>Okt 2024</b><span>Mulai membangun platform User Access Management: struktur organisasi, job role, composite &amp; single role, tcode.</span></li>
-      <li class="rv"><b>2025</b><span>IT Asset Management; UAR per periode, integrasi middle DB, deteksi anomali, process checkpoint.</span></li>
-      <li class="rv"><b>2026</b><span>Auth hardening, backup terenkripsi dengan rclone, dan workflow AI-assisted yang tetap di-review manusia.</span></li>
+      <li class="rv"><b>2025</b><span>IT Asset Management: pencatatan aset dan pemegangnya, dengan filter berbasis role.</span></li>
+      <li class="rv"><b>Agu 2026</b><span>Mulai bekerja rutin dengan Claude Code sebagai pair-programmer dan rekan analisis.</span></li>
+      <li class="rv"><b>Okt 2026</b><span>Merapikan dan meng-hardening server AI agent pribadi, merancang akses MCP yang aman, menyiapkan backup terenkripsi, dan membuat landing page ini.</span></li>
     </ol>
   </div>
 </section>
@@ -343,8 +385,8 @@
 <section id="kontak" class="contact">
   <div class="wrap">
     <p class="eyebrow">Kontak</p>
-    <h2>Ngobrol soal access governance atau sistem internal?</h2>
-    <p class="sub">User access review, kesiapan audit, otomasi laporan, atau aplikasi internal yang harus rapi dan bisa dipertanggungjawabkan — saya senang berdiskusi.</p>
+    <h2>Ngobrol soal self-hosting, keamanan, atau tata kelola IT?</h2>
+    <p class="sub">Hardening server, AI agent yang aman, kesiapan audit, atau sistem yang harus rapi dan bisa dipertanggungjawabkan: saya senang berdiskusi.</p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/dionduren" rel="noopener">github.com/dionduren</a>
     </div>
